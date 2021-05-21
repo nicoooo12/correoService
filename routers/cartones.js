@@ -5,6 +5,7 @@ const scopesValidationHandler = require('../utils/middleware/scopeValidationHand
 const validationHandler = require('../utils/middleware/validationHandler')
 
 const cartonesService = require('../services/cartones')
+const refresh = require('../services/refresh')
 
 const {
   createCartonSchema
@@ -26,6 +27,8 @@ module.exports = function (app) {
       
       let newCarton = await cartonesService.createCarton(req.params.idUser, req.params.serie)
       
+      refresh(req.params.idUser)
+
       res.json({
         message: 'created',
         data: newCarton

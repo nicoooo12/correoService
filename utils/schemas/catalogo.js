@@ -23,7 +23,13 @@ const createCatalogoSchema =Joi.object({
   .boolean()
   .required(),
   serie: Joi
-  .number()
+  .number(),
+  color: Joi
+  .string()
+  .required(),
+  icon: Joi
+  .string()
+  .required()
 })
 
 
@@ -45,7 +51,11 @@ const editCatalogoSchema =Joi.object({
   enVenta:Joi
   .boolean(),
   serie: Joi
-  .number()
+  .number(),
+  color: Joi
+  .string(),
+  icon: Joi
+  .string(),
 })
 
 module.exports = {

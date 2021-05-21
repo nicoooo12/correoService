@@ -24,6 +24,7 @@ require('./routers/auth')(app);
 require('./routers/cartones')(app);
 require('./routers/catalogos')(app);
 require('./routers/orden')(app);
+require('./routers/img')(app);
 // require('./routers/premios')(app);
 
 //404 not found
@@ -39,6 +40,7 @@ app.use(logErrors)
 app.use(wrapErrors)
 app.use(errorHandler)
 
+app.use(express.static(`${__dirname}/db/img`));
 
 app.listen(config.port ,()=>{
   console.log(`[server] server listen on port ${config.port} in mode ${config.dev ? 'development' : 'production' }`);

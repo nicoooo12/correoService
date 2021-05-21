@@ -3,13 +3,15 @@ const boom = require('@hapi/boom')
 //crud
 
 const table = 'cartones'
-async function createCarton(propietario, serie){
+async function createCarton(propietario, serie, icon = 0 ){
   try {
 
     let bucle = true
     let resultado
+    let catalogo = await store.get('catalogos', {serie})
+    catalogo.icon ? icon = catalogo.icon : false
     while(bucle){
-      let dataGenerada = generar()
+      let dataGenerada = generar(icon)
       let carton = await store.get(table, {data: dataGenerada, serie})
       if(!carton[0]){
         bucle=false
@@ -61,12 +63,12 @@ async function deletedCarton(id){
 }
 
 //internal functions
-function generar(){
+function generar(icon){
   let devolver = [[0,0,0,0,0],[0,0,0,0,0],[0,0,76,0,0],[0,0,0,0,0],[0,0,0,0,0]]
   for(let i = 0; i <= 4; i++){
     for(let e = 0; e <= 4; e++){
       if(devolver[i][e] === 76){
-        devolver[i][e] = 0
+        devolver[i][e] = icon
       }else{
         let wi = true
         let o

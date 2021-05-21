@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path')
 function createCanvasUrl(id, canvasUrl){
   return new Promise((resolve, reject) =>{
-    console.log(  );
+    
     fs.writeFile(path.join(__dirname, '..', 'db', 'img', `${id}.txt` ), canvasUrl, (err)=>{
       if(err){
         reject(err);

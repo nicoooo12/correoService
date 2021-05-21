@@ -4,6 +4,7 @@ const boom = require('@hapi/boom')
 
 const scopesValidationHandler = require('../utils/middleware/scopeValidationHandler');
 const validationHandler = require('../utils/middleware/validationHandler')
+const refresh = require('../services/refresh')
 
 const {
   createOrdenSchema,
@@ -59,7 +60,7 @@ module.exports = function (app) {
     try {
       let addCanvasUrl = await ordenServices.addCanvasUrl(
         req.user._id,
-        req.body.data
+        req.body.data.blob()
       )
 
       res.json({
@@ -114,6 +115,7 @@ module.exports = function (app) {
         req.body.message
       )
 
+      refresh(req.params.id)
 
       res.json({
         message: 'add comment',
@@ -282,6 +284,7 @@ module.exports = function (app) {
     }
   })
 
+
   router.put('/:id', //update orden (id, data)
   passport.authenticate('jwt', { session: false }),
   scopesValidationHandler(['update:orden']),
@@ -290,6 +293,8 @@ module.exports = function (app) {
   async (req,res,next)=>{
     try {
       let editOrden = await ordenServices.editOrden(req.params.id,req.body)
+
+      refresh(req.params.id)
 
       res.json({
         message:'edited',
@@ -327,6 +332,8 @@ module.exports = function (app) {
 
       let editOrden = await ordenServices.cancelOrden(req.params.id)
 
+      refresh(req.params.id)
+
       res.json({
         ...editOrden
       }).status(200)
@@ -345,6 +352,8 @@ module.exports = function (app) {
     try {
       // console.log(req.body.comment);
       let editOrden = await ordenServices.terminarOrden(req.params.id, req.body.pagado, req.body.correo, req.body.comment)
+
+      refresh(req.params.id)
 
       res.json({
         message:'finished successfully',

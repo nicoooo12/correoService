@@ -4,6 +4,7 @@ const boom = require('@hapi/boom')
 
 const scopesValidationHandler = require('../utils/middleware/scopeValidationHandler');
 const validationHandler = require('../utils/middleware/validationHandler')
+const refresh = require('../services/refresh')
 
 const {
   createCatalogoSchema,
@@ -25,9 +26,11 @@ module.exports = function (app) {
     try {
       
       let {
-        premios, titulo, subTitulo, precio, enVenta, serie
+        premios, titulo, subTitulo, precio, enVenta, serie, color, icon,
       } = req.body
-      let newCatalogo = await catalogoService.createCatalogo(premios, titulo, subTitulo, precio, enVenta, serie)
+      let newCatalogo = await catalogoService.createCatalogo(premios, titulo, subTitulo, precio, enVenta, serie, color, icon)
+
+      refresh()
 
       res.json({
         message: 'created',
@@ -63,6 +66,8 @@ module.exports = function (app) {
     try {
       let newCatalogo = await catalogoService.updateCatalogo({_id :req.params.id}, req.body)
 
+      refresh()
+
       res.json({
         message: 'edited',
         data: newCatalogo
@@ -80,7 +85,8 @@ module.exports = function (app) {
   async (req,res,next)=>{
     try {
       let newCatalogo = await catalogoService.deletedCatalogo({_id :req.params.id})
-
+      refresh()
+      
       res.json({
         message: 'ok',
         data: newCatalogo

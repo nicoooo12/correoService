@@ -21,8 +21,8 @@ const mySchemaCatalogos = new Schema({
   precio: Number,
   enVenta: Boolean,
   serie: Number,
-  // color: String,
-  // emoji: String,
+  color: String,
+  icon: String,
 })
 
 const mySchemaOrdenes = new Schema({
@@ -43,8 +43,12 @@ const mySchemaOrdenesTerminadas = new Schema({
   comment: String,
 })
 
-const mySchemaEstados = new Schema({
-  
+const mySchemaEvento = new Schema({
+  infoPago: Object,
+})
+
+const mySchemaPlay = new Schema({
+  estado: Number,
 })
 
 const mySchemaErrores = new Schema({
@@ -55,21 +59,24 @@ const mySchemaErrores = new Schema({
 })
 
 
-const users = mongoose.model('users', mySchemaUsers)
-const cartones = mongoose.model('cartones', mySchemaCartones)
-const catalogos = mongoose.model('catalogos', mySchemaCatalogos)
-const ordenes = mongoose.model('ordenes', mySchemaOrdenes)
-const ordenesTerminadas = mongoose.model('ordenesTerminadas', mySchemaOrdenesTerminadas)
+const users = mongoose.model('users', mySchemaUsers)//*
+const cartones = mongoose.model('cartones', mySchemaCartones)//*
+const ordenes = mongoose.model('ordenes', mySchemaOrdenes)//*
+const ordenesTerminadas = mongoose.model('ordenesTerminadas', mySchemaOrdenesTerminadas)//*
 
-const estados = mongoose.model('estados', mySchemaEstados)
+const catalogos = mongoose.model('catalogos', mySchemaCatalogos)//*
+
+const play = mongoose.model('plays', mySchemaPlay)
+const evento = mongoose.model('evento_s', mySchemaEvento)
 const errores = mongoose.model('errores', mySchemaErrores)
 
 module.exports = {
   users,
+  play,
   catalogos,
   cartones,
   ordenes,
-  estados,
+  evento,
   errores,
   ordenesTerminadas,
 }

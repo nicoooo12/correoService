@@ -3,7 +3,7 @@ const table = 'catalogos'
 const boom = require('@hapi/boom')
 //crud
 
-async function createCatalogo(premios, titulo, subTitulo, precio, enVenta, serie){
+async function createCatalogo(premios, titulo, subTitulo, precio, enVenta, serie, color, icon){
   try {
     
     let getCatalogo = await store.get(table, {})
@@ -17,7 +17,9 @@ async function createCatalogo(premios, titulo, subTitulo, precio, enVenta, serie
       subTitulo,
       precio,
       enVenta,
-      serie
+      serie,
+      color,
+      icon
     })
 
     return newCatalogo

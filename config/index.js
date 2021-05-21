@@ -8,5 +8,6 @@ module.exports = {
   gmailPass: process.env.GMAIL_PASSWORD,
   authJwtSecret: process.env.AUTH_JWT_SECRET, 
   publicApiKeyToken: process.env.PUBLIC_API_KEY_TOKEN,
-  adminApiKeyToken: process.env.ADMIN_API_KEY_TOKEN
+  adminApiKeyToken: process.env.ADMIN_API_KEY_TOKEN,
+  ssrUrl: process.env.SSR_URL,
 }
