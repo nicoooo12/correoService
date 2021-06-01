@@ -42,6 +42,7 @@ function getApiKey({ token }) {
       'read:catalogos',
       'update:catalogo',
       'deleted:catalogo',
+      'put:play',
     ]
   }
   return boom.badRequest('token not valid');

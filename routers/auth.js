@@ -6,6 +6,8 @@ const apiKeysService = require('../services/apiKeys');
 const usersService = require('../services/users');
 const validationHandler = require('../utils/middleware/validationHandler');
 
+const scopesValidationHandler = require('../utils/middleware/scopeValidationHandler');
+
 const {
   createUserSchema,
   updateUserSchema
@@ -54,7 +56,7 @@ function authApi(app) {
           };
           
           const token = jwt.sign(payload, config.authJwtSecret, {
-            expiresIn: '15m'
+            expiresIn: '20d'
           });
 
           return res.status(200).json({ token, user: { id, name, email } });
@@ -110,8 +112,22 @@ function authApi(app) {
     res.json({
       message:'ok',
     }).status(200)
-  }
-  )
+  })
+
+  router.get('/:correo',
+  passport.authenticate('jwt', { session: false}),
+  scopesValidationHandler(['read:cartonUser']),
+  async (req,res,next)=>{
+    const getUser = await usersService.getUser({email: req.params.correo})
+    res.json({
+      message:'ok',
+      data: {
+        email: getUser.email,
+        name: getUser.name,
+        id: getUser._id,
+      },
+    }).status(200)
+  })
 
 }
 

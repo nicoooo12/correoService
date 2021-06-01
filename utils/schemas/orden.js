@@ -40,7 +40,10 @@ const editOrdenSchema =Joi.object({
 });
 
 const addCanvasUrlSchema = Joi.object({
-  data: Joi
+  code: Joi
+    .string()
+    .required(),
+  url: Joi
     .string()
     .required(),
 })

@@ -1,4 +1,6 @@
 const htmlPdf = require('html-pdf')
+// const html_to_pdf = require('html-pdf-node')
+
 
 function layout(body) {
   return (`
@@ -501,7 +503,7 @@ async function pdf(cartones){
   return new Promise((resolve, reject) => {
     htmlPdf.create(layout(
       cartones.map((e)=>{
-        return carton('Carton de pruebas', e.serie, e.data)
+        return carton(e.title, e.serie, e.data)
       }).join()
     ), { format: 'Letter' }).toBuffer( (err, buffer) =>{
       if(err){
@@ -536,6 +538,38 @@ async function pdf(cartones){
 
 // pdf()
 
+
+// async function pdf2(cartones){
+//   try {
+//     // let cartonesUser = await store.get('cartones',{_id: num})
+//     // let catalogos = await store.get('catalogos',{})
+//     // let carton = {...cartonesUser[0]._doc, color: catalogos.filter((e)=>{return e.serie == cartonesUser[0].serial})[0].color,titulo: catalogos.filter((e)=>{return e.serie == cartonesUser[0].serial})[0].titulo, message: catalogos.filter((e)=>{return e.serie == cartonesUser[0].serial})[0].textoMedio}
+//     // let cartonesUserAll = await store.get('cartones',{propietario_correo: carton.propietario_correo})
+//     // let user = await store.get('users',{_id: carton.propietario_correo})
+//     let file = { content: layout(
+//       cartones.map((e)=>{
+//         return carton(e.title ? e.title : 'Carton' , e.serie, e.data)
+//       }).join()
+//     ) } 
+//     let options = { 
+//       format : 'Letter', 
+//       preferCSSPageSize : true,
+//       name: 'Mi carton.pdf', 
+//       printBackground :true
+//     }
+
+//     let pdfFinal = await html_to_pdf.generatePdf(file, options)
+
+//     return pdfFinal;
+
+//   } catch (error) {
+//     throw new Error(error)
+//   }
+// }
+
+// pdf2()
+
 module.exports = {
+  // pdf,
   pdf
 }

@@ -10,6 +10,7 @@ const mySchemaUsers = new Schema({
 
 const mySchemaCartones = new Schema({
   user: String,
+  title: String,
   data: Array,
   serie: Number,
 })
@@ -31,8 +32,11 @@ const mySchemaOrdenes = new Schema({
   tipoDePago: String,
   estado: Number, // 0: finalizado, 1: en revisión, 2: iniciada
   canvasUrl: Boolean,
+  imgUrl: String,
   user: String,
+  username: String,
   message: String,
+  code: String,
 })
 
 const mySchemaOrdenesTerminadas = new Schema({
@@ -41,6 +45,7 @@ const mySchemaOrdenesTerminadas = new Schema({
   pagado: Number,
   user: String,
   comment: String,
+  code: String,
 })
 
 const mySchemaEvento = new Schema({
@@ -49,6 +54,8 @@ const mySchemaEvento = new Schema({
 
 const mySchemaPlay = new Schema({
   estado: Number,
+  serieJuego: Number,
+  comment: String,
 })
 
 const mySchemaErrores = new Schema({
@@ -66,13 +73,13 @@ const ordenesTerminadas = mongoose.model('ordenesTerminadas', mySchemaOrdenesTer
 
 const catalogos = mongoose.model('catalogos', mySchemaCatalogos)//*
 
-const play = mongoose.model('plays', mySchemaPlay)
+const plays = mongoose.model('plays', mySchemaPlay)
 const evento = mongoose.model('evento_s', mySchemaEvento)
 const errores = mongoose.model('errores', mySchemaErrores)
 
 module.exports = {
   users,
-  play,
+  plays,
   catalogos,
   cartones,
   ordenes,

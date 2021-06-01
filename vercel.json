@@ -1,0 +1,25 @@
+{
+  "name": "bingoloteando-api",
+  "version": 2,
+  "builds": [
+    {
+      "src": "index.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/index.js"
+    }
+  ],
+  "env": {
+    "DB": "@db",
+    "AUTH_JWT_SECRET":"@secret-auth",
+    "PUBLIC_API_KEY_TOKEN":"@public-token",
+    "ADMIN_API_KEY_TOKEN":"@admin-token",
+    "GMAIL_USER":"@gmail-user",
+    "GMAIL_PASSWORD": "@gmail-password",
+    "SSR_URL":"http://localhost:3001"
+  }
+}

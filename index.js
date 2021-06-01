@@ -25,6 +25,7 @@ require('./routers/cartones')(app);
 require('./routers/catalogos')(app);
 require('./routers/orden')(app);
 require('./routers/img')(app);
+require('./routers/play')(app);
 // require('./routers/premios')(app);
 
 //404 not found

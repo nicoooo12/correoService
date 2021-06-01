@@ -1,5 +1,5 @@
 const store = require('../libs/mongoose')
-const boom = require('@hapi/boom')
+// const boom = require('@hapi/boom')
 //crud
 
 const table = 'cartones'
@@ -9,7 +9,8 @@ async function createCarton(propietario, serie, icon = 0 ){
     let bucle = true
     let resultado
     let catalogo = await store.get('catalogos', {serie})
-    catalogo.icon ? icon = catalogo.icon : false
+    // console.log(catalogo[0].titulo);
+    // catalogo[0].icon ? icon = catalogo.icon[0] : false
     while(bucle){
       let dataGenerada = generar(icon)
       let carton = await store.get(table, {data: dataGenerada, serie})
@@ -17,6 +18,7 @@ async function createCarton(propietario, serie, icon = 0 ){
         bucle=false
         let newCarton = await store.post(table, {
           user: propietario,
+          title: catalogo[0].titulo,
           data: dataGenerada,
           serie,
         })

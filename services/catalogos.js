@@ -1,6 +1,6 @@
 const store = require('../libs/mongoose')
 const table = 'catalogos'
-const boom = require('@hapi/boom')
+// const boom = require('@hapi/boom')
 //crud
 
 async function createCatalogo(premios, titulo, subTitulo, precio, enVenta, serie, color, icon){

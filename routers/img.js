@@ -26,14 +26,16 @@ module.exports = function (app) {
   router.post('/upload', 
   // passport.authenticate('jwt', { session: false }),
   (req, res) => {
-    console.log(req);
+    console.log(req.file);
     uploadImage(req, res, (err) => {
         if (err) {
             err.message = 'The file is so heavy for my service';
             return res.send(err);
         }
         console.log(req.file);
-        res.send('uploaded');
+        res.json({
+          data: 'done' 
+        });
     });
   });
 

@@ -35,7 +35,8 @@ module.exports = function (app) {
         compra,
         totalPago,
         tipoDePago,
-        req.user._id
+        req.user._id,
+        req.user.name
       )
 
       if(newOden.err){
@@ -53,19 +54,15 @@ module.exports = function (app) {
   })
 
   router.post('/canvas', //add canvas Url (user.id, data)
-  passport.authenticate('jwt', { session: false }),
-  scopesValidationHandler(['create:canvasOrden']),
   validationHandler(addCanvasUrlSchema),
   async (req,res, next)=>{
     try {
-      let addCanvasUrl = await ordenServices.addCanvasUrl(
-        req.user._id,
-        req.body.data.blob()
-      )
+
+      let edited = await ordenServices.addCanvasUrl(req.body.code, req.body.url)
 
       res.json({
         message: 'added',
-        data: addCanvasUrl,
+        data: edited,
       }).status(201)
 
     } catch (err) {
@@ -213,29 +210,6 @@ module.exports = function (app) {
         message:'ok',
         data: getOrden,
       }).status(200)
-
-    } catch (err) {
-      next(err)
-    }
-  })
-
-  router.get('/canvas/my', //read canvas (id)
-  passport.authenticate('jwt', { session: false }),
-  scopesValidationHandler(['read:myCanvas']),
-  async (req,res, next)=>{
-    try {
-      
-      let getCanvasOrden = await ordenServices.getCanvasOrden(req.user._id)
-
-      if(getCanvasOrden.canvas){
-        res.json({
-          message:'ok',
-          data: getCanvasOrden.data,
-        }).status(200)
-      }else{
-        next(boom.badRequest('canvas no existe'))
-      }
-
 
     } catch (err) {
       next(err)

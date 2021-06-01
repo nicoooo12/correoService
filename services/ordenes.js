@@ -1,23 +1,28 @@
 const store = require('../libs/mongoose')
-const canvasServices = require('./canvasUrl')
 const correoService = require('./correo')
 const cartonesService = require('./cartones')
+const shortid = require('shortid');
+
 const table = 'ordenes'
 async function createOrden(
   compra, // Array
   totalPago, //Number
   tipoDePago, // String
-  user // String
+  user, // String
+  username // String
 ){
   try{
     let getOrden = await store.get(table, { user })
     if(getOrden[0]){
       return { err : true}
     }
+    let code = shortid.generate()
     let newOrden = await store.post(table,{
+      code,
       compra,
       totalPago,
       tipoDePago,
+      username,
       estado: 2, // 0: finalizado, 1: en revisión, 2: incida
       canvasUrl: false, // estado = 2 -> no canvas url
       user
@@ -33,14 +38,19 @@ async function createOrden(
   }
 }
 
-async function addCanvasUrl(id, canvasUrl){
+async function addCanvasUrl(code, canvasUrl){
 
   try {
-
-    await canvasServices.createCanvasUrl(id, canvasUrl)
     
-    let editOrden = await store.put(table, {user: id}, {
+    let orden = await store.get(table, { code } )
+
+    if (!orden[0]) {
+      throw new Error('invalid code')
+    }
+
+    let editOrden = await store.put(table, {user: orden[0].user}, {
       canvasUrl: true,
+      imgUrl: canvasUrl,
       estado: 1, // 0: finalizado, 1: en revisión, 2: incida
     })
 
@@ -77,11 +87,10 @@ async function getCanvasOrden(id){
     if(!getOrden[0] || !getOrden[0].canvasUrl){
       return { canvas : false}
     }
-    let getCanvas = await canvasServices.getCanvasUrl(id)
 
     return {
       canvas: true,
-      data: getCanvas
+      data: getOrden[0].imgUrl,
     }
 
   } catch (err) {
@@ -183,9 +192,9 @@ async function terminarOrden(id, pagado, correo = false, comment){
   
   try {
     
-    // console.log('[comment]', comment);
     //cambiar el estado 
     let orden = await store.get(table, {user: id})
+
     //crea los cartones
     orden[0].compra.map(async (e)=>{
       for(let i=1; i<= e.cantidad; i++){
@@ -202,9 +211,7 @@ async function terminarOrden(id, pagado, correo = false, comment){
       user: id,
     })
     await store.delt(table, {user: id})
-    if(orden[0].canvasUrl){
-      canvasServices.deleteCanvasUrl(id)
-    }
+
     //manda el correo con los pdfs
     if (correo){
       let [user] = await store.get('users', {_id : id})
