@@ -3,9 +3,9 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=node,visualstudiocode,visualstudio,windows,linux,macos,dotenv
 
 
-/pdf
-/db/img
-/db/Markdown
+### now ###
+.now
+.vercel
 
 ### dotenv ###
 .env
@@ -583,3 +583,4 @@ FodyWeavers.xsd
 *.tlog
 
 # End of https://www.toptal.com/developers/gitignore/api/node,visualstudiocode,visualstudio,windows,linux,macos,dotenv
+.vercel

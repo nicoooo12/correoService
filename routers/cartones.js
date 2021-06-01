@@ -27,7 +27,7 @@ module.exports = function (app) {
       
       let newCarton = await cartonesService.createCarton(req.params.idUser, req.params.serie)
       
-      refresh(req.params.idUser)
+      await refresh(req.params.idUser)
 
       res.json({
         message: 'created',

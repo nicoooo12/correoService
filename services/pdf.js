@@ -496,7 +496,7 @@ function carton(title, serie, data){
   `)
 }
 
-async function pdf(cartones){
+function pdf(cartones){
 
   //catones[ { data: [...], user_id, serie } ]
 
@@ -504,7 +504,7 @@ async function pdf(cartones){
     htmlPdf.create(layout(
       cartones.map((e)=>{
         return carton(e.title, e.serie, e.data)
-      }).join()
+      }).join('')
     ), { format: 'Letter' }).toBuffer( (err, buffer) =>{
       if(err){
         reject(err)

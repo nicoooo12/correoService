@@ -112,7 +112,7 @@ module.exports = function (app) {
         req.body.message
       )
 
-      refresh(req.params.id)
+      await refresh(req.params.id)
 
       res.json({
         message: 'add comment',
@@ -268,7 +268,7 @@ module.exports = function (app) {
     try {
       let editOrden = await ordenServices.editOrden(req.params.id,req.body)
 
-      refresh(req.params.id)
+      await refresh(req.params.id)
 
       res.json({
         message:'edited',
@@ -306,7 +306,7 @@ module.exports = function (app) {
 
       let editOrden = await ordenServices.cancelOrden(req.params.id)
 
-      refresh(req.params.id)
+      await refresh(req.params.id)
 
       res.json({
         ...editOrden
@@ -327,7 +327,7 @@ module.exports = function (app) {
       // console.log(req.body.comment);
       let editOrden = await ordenServices.terminarOrden(req.params.id, req.body.pagado, req.body.correo, req.body.comment)
 
-      refresh(req.params.id)
+      await refresh(req.params.id)
 
       res.json({
         message:'finished successfully',

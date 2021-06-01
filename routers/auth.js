@@ -31,7 +31,7 @@ function authApi(app) {
       return next(boom.unauthorized('apiKeyToken is required'));
     }
 
-    passport.authenticate('basic', function(error, user) {
+    passport.authenticate('basic', async function(error, user) {
       try {
         if (error || !user) {
           return next(boom.unauthorized());
@@ -118,15 +118,20 @@ function authApi(app) {
   passport.authenticate('jwt', { session: false}),
   scopesValidationHandler(['read:cartonUser']),
   async (req,res,next)=>{
-    const getUser = await usersService.getUser({email: req.params.correo})
-    res.json({
-      message:'ok',
-      data: {
-        email: getUser.email,
-        name: getUser.name,
-        id: getUser._id,
-      },
-    }).status(200)
+    try {
+      const getUser = await usersService.getUser({email: req.params.correo})
+      res.json({
+        message:'ok',
+        data: {
+          email: getUser.email,
+          name: getUser.name,
+          id: getUser._id,
+        },
+      }).status(200)
+      
+    } catch (error) {
+      next(error)
+    }
   })
 
 }

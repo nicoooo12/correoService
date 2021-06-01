@@ -174,9 +174,6 @@ async function cancelOrden(id){
       return { message: 'order already deleted or does not exist'} 
     }else{
       await store.delt(table, {user: id})
-      if(getOrden[0].canvasUrl){
-        canvasServices.deleteCanvasUrl(id)
-      }
       return {message:'cancel successfully'}
     }
     
@@ -191,11 +188,14 @@ async function cancelOrden(id){
 async function terminarOrden(id, pagado, correo = false, comment){
   
   try {
-    
-    //cambiar el estado 
+        
+    //crea los cartones
     let orden = await store.get(table, {user: id})
 
-    //crea los cartones
+    if (!orden[0]) {
+      throw new Error('orden terminada');
+    }
+
     orden[0].compra.map(async (e)=>{
       for(let i=1; i<= e.cantidad; i++){
         await cartonesService.createCarton(id, e.serie)
@@ -215,7 +215,10 @@ async function terminarOrden(id, pagado, correo = false, comment){
     //manda el correo con los pdfs
     if (correo){
       let [user] = await store.get('users', {_id : id})
-      await correoService.correoConfirmation(user.email, await cartonesService.getCarton({ user: id}))
+      correoService.correoConfirmation(
+        user.email,
+        await cartonesService.getCarton({ user: id}
+      ))
     }
 
     //retornar

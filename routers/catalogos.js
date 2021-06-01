@@ -30,7 +30,7 @@ module.exports = function (app) {
       } = req.body
       let newCatalogo = await catalogoService.createCatalogo(premios, titulo, subTitulo, precio, enVenta, serie, color, icon)
 
-      refresh()
+      await refresh()
 
       res.json({
         message: 'created',
@@ -66,7 +66,7 @@ module.exports = function (app) {
     try {
       let newCatalogo = await catalogoService.updateCatalogo({_id :req.params.id}, req.body)
 
-      refresh()
+      await refresh()
 
       res.json({
         message: 'edited',
@@ -85,7 +85,7 @@ module.exports = function (app) {
   async (req,res,next)=>{
     try {
       let newCatalogo = await catalogoService.deletedCatalogo({_id :req.params.id})
-      refresh()
+      await refresh()
       
       res.json({
         message: 'ok',
