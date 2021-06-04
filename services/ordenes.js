@@ -196,13 +196,21 @@ async function terminarOrden(id, pagado, correo = false, comment){
       throw new Error('orden terminada');
     }
 
-    orden[0].compra.map(async (e)=>{
+    let cantidadCartonesNuevos = 0;
+    await orden[0].compra.map(async (e)=>{
+      cantidadCartonesNuevos = cantidadCartonesNuevos + e.cantidad
       for(let i=1; i<= e.cantidad; i++){
         await cartonesService.createCarton(id, e.serie)
       }
     })
 
     //mover la orden
+    let [evento] = await store.get('evento')
+    console.log(evento, cantidadCartonesNuevos, evento.montoTotal);
+    await store.put('evento', { _id: evento._id}, {
+      montoTotal: evento.montoTotal + pagado,
+      catonesComprados: evento.catonesComprados + cantidadCartonesNuevos,
+    })
     let newOrdenEnd = await store.post('ordenesTerminadas', {
       compra: orden[0].compra,
       pago: orden[0].totalPago,
@@ -215,7 +223,7 @@ async function terminarOrden(id, pagado, correo = false, comment){
     //manda el correo con los pdfs
     if (correo){
       let [user] = await store.get('users', {_id : id})
-      correoService.correoConfirmation(
+      await correoService.correoConfirmation(
         user.email,
         await cartonesService.getCarton({ user: id}
       ))

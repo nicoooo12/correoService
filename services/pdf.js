@@ -505,7 +505,10 @@ function pdf(cartones){
       cartones.map((e)=>{
         return carton(e.title, e.serie, e.data)
       }).join('')
-    ), { format: 'Letter' }).toBuffer( (err, buffer) =>{
+    ), {
+      format: 'Letter',
+      timeout: 540000,
+    }).toBuffer( (err, buffer) =>{
       if(err){
         reject(err)
       }

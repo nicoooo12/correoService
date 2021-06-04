@@ -3,7 +3,7 @@ const store = require('../libs/mongoose')
 //crud
 
 const table = 'cartones'
-async function createCarton(propietario, serie, icon = 0 ){
+async function createCarton(propietario, serie, icon = 'X' ){
   try {
 
     let bucle = true

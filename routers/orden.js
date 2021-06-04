@@ -60,6 +60,8 @@ module.exports = function (app) {
 
       let edited = await ordenServices.addCanvasUrl(req.body.code, req.body.url)
 
+      await refresh(edited[0].user)
+
       res.json({
         message: 'added',
         data: edited,

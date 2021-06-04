@@ -49,7 +49,9 @@ const mySchemaOrdenesTerminadas = new Schema({
 })
 
 const mySchemaEvento = new Schema({
-  infoPago: Object,
+  montoTotal: Number,
+  catonesComprados: Number,
+  fecha:String,
 })
 
 const mySchemaPlay = new Schema({
