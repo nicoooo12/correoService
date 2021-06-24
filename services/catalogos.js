@@ -1,17 +1,25 @@
-const store = require('../libs/mongoose')
-const table = 'catalogos'
+const store = require('../libs/mongoose');
+const table = 'catalogos';
 // const boom = require('@hapi/boom')
-//crud
+// crud
 
-async function createCatalogo(premios, titulo, subTitulo, precio, enVenta, serie, color, icon){
+const createCatalogo = async (
+    premios,
+    titulo,
+    subTitulo,
+    precio,
+    enVenta,
+    serie,
+    color,
+    icon,
+) => {
   try {
-    
-    let getCatalogo = await store.get(table, {})
-    if(!serie){
-      serie = getCatalogo.length+1
+    const getCatalogo = await store.get(table, {});
+    if (!serie) {
+      serie = getCatalogo.length+1;
     }
 
-    let newCatalogo = await store.post(table, {
+    const newCatalogo = await store.post(table, {
       premios,
       titulo,
       subTitulo,
@@ -19,63 +27,56 @@ async function createCatalogo(premios, titulo, subTitulo, precio, enVenta, serie
       enVenta,
       serie,
       color,
-      icon
-    })
+      icon,
+    });
 
-    return newCatalogo
-
+    return newCatalogo;
   } catch (err) {
-    throw new Error(err)
+    throw new Error(err);
   }
-}
+};
 
-async function getCatalogo(id){
+const getCatalogo = async (id) => {
   try {
-    
-    let getCatalogo = await store.get(table, id)
-    
-    return getCatalogo
+    const getCatalogo = await store.get(table, id);
 
+    return getCatalogo;
   } catch (err) {
-    throw new Error(err)
+    throw new Error(err);
   }
-}
+};
 
-async function updateCatalogo(id, data){
+const updateCatalogo = async (id, data) => {
   try {
-    
-    let editCatalogo = await store.put(table, id, data)
+    const editCatalogo = await store.put(table, id, data);
 
-    return editCatalogo
-
+    return editCatalogo;
   } catch (err) {
-    throw new Error(err)
+    throw new Error(err);
   }
-}
+};
 
-async function deletedCatalogo(id){
+const deletedCatalogo = async (id) => {
   try {
-    
-    let getCarton = await store.get(table, {
+    const getCarton = await store.get(table, {
       _id: id,
-    })
-    if(!getCarton[0]){
-      return { message: 'carton already deleted or does not exist'} 
-    }else{
+    });
+    if (!getCarton[0]) {
+      return {message: 'carton already deleted or does not exist'};
+    } else {
       await store.delt(table, {
         _id: id,
-      })
-      return {message:'deleted successfully'}
+      });
+      return {message: 'deleted successfully'};
     }
-
   } catch (err) {
-    throw new Error(err)
+    throw new Error(err);
   }
-}
+};
 
 module.exports = {
   createCatalogo,
   getCatalogo,
   updateCatalogo,
-  deletedCatalogo
-}
+  deletedCatalogo,
+};

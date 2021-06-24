@@ -1,8 +1,8 @@
-const config = require('../config')
-const boom = require('@hapi/boom')
+const config = require('../config');
+const boom = require('@hapi/boom');
 
-function getApiKey({ token }) {
-  if(token === config.publicApiKeyToken){
+const getApiKey = ({token}) => {
+  if (token === config.publicApiKeyToken) {
     return [
       'signin:auth',
       'signup:auth',
@@ -13,8 +13,8 @@ function getApiKey({ token }) {
       'deleted:myOrden',
       'read:myCarton',
       'read:catalogos',
-    ]
-  }else if(token === config.adminApiKeyToken) {
+    ];
+  } else if (token === config.adminApiKeyToken) {
     return [
       'signin:auth',
       'signup:auth',
@@ -43,10 +43,10 @@ function getApiKey({ token }) {
       'update:catalogo',
       'deleted:catalogo',
       'put:play',
-    ]
+    ];
   }
   return boom.badRequest('token not valid');
-}
+};
 
 /**
  create:
@@ -56,5 +56,5 @@ function getApiKey({ token }) {
  */
 
 module.exports = {
-  getApiKey
+  getApiKey,
 };

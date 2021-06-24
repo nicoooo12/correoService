@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  
   "engines": {
     "node": "14.17.x"
   },
@@ -12,16 +11,17 @@
     "dev": "nodemon index"
   },
   "keywords": [],
-  "author": "",
+  "author": "Nicolás Flores <nicoflores.dev@gmail.com>",
   "license": "ISC",
   "dependencies": {
     "@hapi/boom": "^9.1.2",
+    "@socket.io/admin-ui": "^0.2.0",
     "axios": "^0.21.1",
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "helmet": "^4.5.0",
+    "helmet": "^4.6.0",
     "html-pdf-node": "^1.0.7",
     "joi": "^17.4.0",
     "jsonwebtoken": "^8.5.1",
@@ -33,10 +33,13 @@
     "passport-jwt": "^4.0.0",
     "puppeteer": "^9.0.0",
     "puppeteer-core": "^9.0.0",
-    "shortid": "^2.2.16"
+    "shortid": "^2.2.16",
+    "socket.io": "^4.1.2"
   },
   "devDependencies": {
     "assert": "^2.0.0",
+    "eslint": "^7.29.0",
+    "eslint-config-google": "^0.14.0",
     "mocha": "^8.3.2",
     "nodemon": "^2.0.6",
     "proxyquire": "^2.1.3",

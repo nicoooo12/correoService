@@ -1,23 +1,23 @@
-const store = require('../libs/mongoose')
-const correoService = require('./correo')
-const cartonesService = require('./cartones')
+const store = require('../libs/mongoose');
+const correoService = require('./correo');
+const cartonesService = require('./cartones');
 const shortid = require('shortid');
 
-const table = 'ordenes'
-async function createOrden(
-  compra, // Array
-  totalPago, //Number
-  tipoDePago, // String
-  user, // String
-  username // String
-){
-  try{
-    let getOrden = await store.get(table, { user })
-    if(getOrden[0]){
-      return { err : true}
+const table = 'ordenes';
+const createOrden = async (
+    compra, // Array
+    totalPago, // Number
+    tipoDePago, // String
+    user, // String
+    username, // String
+) => {
+  try {
+    const getOrden = await store.get(table, {user});
+    if (getOrden[0]) {
+      return {err: true};
     }
-    let code = shortid.generate()
-    let newOrden = await store.post(table,{
+    const code = shortid.generate();
+    const newOrden = await store.post(table, {
       code,
       compra,
       totalPago,
@@ -25,172 +25,127 @@ async function createOrden(
       username,
       estado: 2, // 0: finalizado, 1: en revisión, 2: incida
       canvasUrl: false, // estado = 2 -> no canvas url
-      user
-    }) 
+      user,
+    });
 
-    return {err: false, newOrden}
-
+    return {err: false, newOrden};
+  } catch (err) {
+    throw new Error(err);
   }
-  catch(err){
+};
 
-    throw new Error(err)
-
-  }
-}
-
-async function addCanvasUrl(code, canvasUrl){
-
+const addCanvasUrl = async (code, canvasUrl) => {
   try {
-    
-    let orden = await store.get(table, { code } )
+    const orden = await store.get(table, {code} );
 
     if (!orden[0]) {
-      throw new Error('invalid code')
+      throw new Error('invalid code');
     }
 
-    let editOrden = await store.put(table, {user: orden[0].user}, {
+    const editOrden = await store.put(table, {user: orden[0].user}, {
       canvasUrl: true,
       imgUrl: canvasUrl,
       estado: 1, // 0: finalizado, 1: en revisión, 2: incida
-    })
+    });
 
-    return editOrden
-
+    return editOrden;
   } catch (err) {
-    
-    throw new Error(err)
-
+    throw new Error(err);
   }
+};
 
-}
-
-async function addComment(id, message){
+const addComment = async (id, message) => {
   try {
-    let editOrden = await store.put(table, {user: id}, {message})
+    const editOrden = await store.put(table, {user: id}, {message});
 
-    return editOrden
-
+    return editOrden;
   } catch (err) {
-    
-    throw new Error(err)
-
+    throw new Error(err);
   }
-}
+};
 
-async function getCanvasOrden(id){
-
+const getCanvasOrden = async (id) => {
   try {
-    
-    let getOrden = await store.get(table, {
+    const getOrden = await store.get(table, {
       user: id,
-    })
-    if(!getOrden[0] || !getOrden[0].canvasUrl){
-      return { canvas : false}
+    });
+    if (!getOrden[0] || !getOrden[0].canvasUrl) {
+      return {canvas: false};
     }
 
     return {
       canvas: true,
       data: getOrden[0].imgUrl,
+    };
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
+const getOrdenes = async () => {
+  try {
+    const getOrdenes = await store.get(table, {});
+
+    return getOrdenes;
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
+const getOrden = async (id) => {
+  try {
+    const getOrden = await store.get(table, {
+      user: id,
+    });
+
+    return getOrden;
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
+const getOrdenTerminadas = async (id) => {
+  try {
+    const getOrden = await store.get('ordenesTerminadas', {
+      user: id,
+    });
+
+    return getOrden;
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
+const editOrden = async (id, data) => {
+  try {
+    const editOrden = await store.put(table, {user: id}, data);
+
+    return editOrden;
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
+const cancelOrden = async (id) => {
+  try {
+    const getOrden = await store.get(table, {
+      user: id,
+    });
+    if (!getOrden[0]) {
+      return {message: 'order already deleted or does not exist'};
+    } else {
+      await store.delt(table, {user: id});
+      return {message: 'cancel successfully'};
     }
-
   } catch (err) {
-    
-    throw new Error(err)
-
+    throw new Error(err);
   }
+};
 
-}
-
-async function getOrdenes(){
+const terminarOrden = async (id, pagado, correo = false, comment) => {
   try {
-    
-    let getOrdenes = await store.get(table, {})
-
-    return getOrdenes
-
-  } catch (err) {
-    
-    throw new Error(err)
-
-  }
-}
-
-async function getOrden(id){
-
-  try {
-    
-    let getOrden = await store.get(table, {
-      user: id,
-    })
-
-    return getOrden
-
-  } catch (err) {
-    
-    throw new Error(err)
-
-  }
-
-}
-
-async function getOrdenTerminadas(id){
-
-  try {
-    
-    let getOrden = await store.get('ordenesTerminadas', {
-      user: id,
-    })
-
-    return getOrden
-
-  } catch (err) {
-    
-    throw new Error(err)
-
-  }
-
-}
-
-async function editOrden(id, data){
-  try {
-    let editOrden = await store.put(table, {user: id}, data)
-
-    return editOrden
-
-  } catch (err) {
-    
-    throw new Error(err)
-
-  }
-}
-
-async function cancelOrden(id){
-
-  try {
-    let getOrden = await store.get(table, {
-      user: id,
-    })
-    if(!getOrden[0]){
-      return { message: 'order already deleted or does not exist'} 
-    }else{
-      await store.delt(table, {user: id})
-      return {message:'cancel successfully'}
-    }
-    
-  } catch (err) {
-    
-    throw new Error(err)
-
-  }
-
-}
-
-async function terminarOrden(id, pagado, correo = false, comment){
-  
-  try {
-        
-    //crea los cartones
-    let orden = await store.get(table, {user: id})
+    // crea los cartones
+    const orden = await store.get(table, {user: id});
 
     if (!orden[0]) {
       throw new Error('orden terminada');
@@ -198,47 +153,43 @@ async function terminarOrden(id, pagado, correo = false, comment){
 
     let cantidadCartonesNuevos = 0;
     await orden[0].compra.map(async (e)=>{
-      cantidadCartonesNuevos = cantidadCartonesNuevos + e.cantidad
-      for(let i=1; i<= e.cantidad; i++){
-        await cartonesService.createCarton(id, e.serie)
+      cantidadCartonesNuevos = cantidadCartonesNuevos + e.cantidad;
+      for (let i=1; i<= e.cantidad; i++) {
+        await cartonesService.createCarton(id, e.serie);
       }
-    })
+    });
 
-    //mover la orden
-    let [evento] = await store.get('evento')
-    console.log(evento, cantidadCartonesNuevos, evento.montoTotal);
-    await store.put('evento', { _id: evento._id}, {
+    // mover la orden
+    const [evento] = await store.get('evento');
+    // console.log(evento, cantidadCartonesNuevos, evento.montoTotal);
+    await store.put('evento', {_id: evento._id}, {
       montoTotal: evento.montoTotal + pagado,
       catonesComprados: evento.catonesComprados + cantidadCartonesNuevos,
-    })
-    let newOrdenEnd = await store.post('ordenesTerminadas', {
+    });
+    const newOrdenEnd = await store.post('ordenesTerminadas', {
       compra: orden[0].compra,
       pago: orden[0].totalPago,
       pagado,
       comment,
       user: id,
-    })
-    await store.delt(table, {user: id})
+    });
+    await store.delt(table, {user: id});
 
-    //manda el correo con los pdfs
-    if (correo){
-      let [user] = await store.get('users', {_id : id})
+    // manda el correo con los pdfs
+    if (correo) {
+      const [user] = await store.get('users', {_id: id});
       await correoService.correoConfirmation(
-        user.email,
-        await cartonesService.getCarton({ user: id}
-      ))
+          user.email,
+          await cartonesService.getCarton({user: id},
+          ));
     }
 
-    //retornar
-    return newOrdenEnd
- 
+    // retornar
+    return newOrdenEnd;
   } catch (err) {
-   
-    throw new Error(err)
-
+    throw new Error(err);
   }
-
-}
+};
 
 module.exports = {
   createOrden,
@@ -251,4 +202,4 @@ module.exports = {
   terminarOrden,
   addComment,
   getOrdenTerminadas,
-}
+};

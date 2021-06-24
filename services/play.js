@@ -1,32 +1,33 @@
-const store = require('../libs/mongoose')
-const table = 'plays'
+const store = require('../libs/mongoose');
+const table = 'plays';
 // const boom = require('@hapi/boom')
 
-async function updatePlay(data){
+const updatePlay = async (data) => {
   try {
-    
-    let editCatalogo = await store.put(table, { _id: '60aba5b0106085d77c0be3b8' }, data)
+    const idPlay = await store.get(table, {})[0]._id;
+    const editCatalogo = await store.put(
+        table,
+        {_id: idPlay},
+        data,
+    );
 
-    return editCatalogo
-
+    return editCatalogo;
   } catch (err) {
-    throw new Error(err)
+    throw new Error(err);
   }
-}
+};
 
-async function getPlay(){
+const getPlay = async () => {
   try {
-    
-    let getPlay = await store.get(table, {})
-    
-    return getPlay[0]
+    const getPlay = await store.get(table, {});
 
+    return getPlay[0];
   } catch (err) {
-    throw new Error(err)
+    throw new Error(err);
   }
-}
+};
 
 module.exports = {
   updatePlay,
-  getPlay
-}
+  getPlay,
+};

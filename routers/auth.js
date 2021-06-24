@@ -6,13 +6,14 @@ const apiKeysService = require('../services/apiKeys');
 const usersService = require('../services/users');
 const validationHandler = require('../utils/middleware/validationHandler');
 
-const scopesValidationHandler = require('../utils/middleware/scopeValidationHandler');
+const scopesValidationHandler =
+require('../utils/middleware/scopeValidationHandler');
 
 const {
   createUserSchema,
-  updateUserSchema
+  updateUserSchema,
 } = require('../utils/schemas/users');
-const idSchema = require('../utils/schemas/id');
+// const idSchema = require('../utils/schemas/id');
 
 const config = require('../config');
 
@@ -20,12 +21,12 @@ const config = require('../config');
 require('../utils/auth/strategies/basic');
 require('../utils/auth/strategies/jwt');
 
-function authApi(app) {
-  const router = express.Router();
+const authApi = (app) => {
+  const router = new express.Router();
   app.use('/api/auth', router);
 
-  router.post('/sign-in', async function(req, res, next) {
-    const { apiKeyToken } = req.body;
+  router.post('/sign-in', async (req, res, next) => {
+    const {apiKeyToken} = req.body;
 
     if (!apiKeyToken) {
       return next(boom.unauthorized('apiKeyToken is required'));
@@ -36,30 +37,30 @@ function authApi(app) {
         if (error || !user) {
           return next(boom.unauthorized());
         }
-        req.login(user, { session: false }, async function(error) {
+        req.login(user, {session: false}, async function(error) {
           if (error) {
             return next(error);
           }
 
-          const apiKey = apiKeysService.getApiKey({ token: apiKeyToken });
+          const apiKey = apiKeysService.getApiKey({token: apiKeyToken});
           if (!apiKey) {
             return next(boom.unauthorized());
           }
 
-          const { _id: id, name, email } = user;
+          const {_id: id, name, email} = user;
 
           const payload = {
             sub: id,
             name,
             email,
-            scopes: apiKey
+            scopes: apiKey,
           };
-          
+
           const token = jwt.sign(payload, config.authJwtSecret, {
-            expiresIn: '20d'
+            expiresIn: '20d',
           });
 
-          return res.status(200).json({ token, user: { id, name, email } });
+          return res.status(200).json({token, user: {id, name, email}});
         });
       } catch (error) {
         next(error);
@@ -67,73 +68,74 @@ function authApi(app) {
     })(req, res, next);
   });
 
-  router.post('/sign-up', 
-  validationHandler(createUserSchema),
-  async function(
-    req,
-    res,
-    next
-  ) {
-    const { body: user } = req;
+  router.post('/sign-up',
+      validationHandler(createUserSchema),
+      async function(
+          req,
+          res,
+          next,
+      ) {
+        const {body: user} = req;
 
-    try {
-      const createdUserId = await usersService.createUser({ user });
+        try {
+          const createdUserId = await usersService.createUser({user});
 
-      res.status(201).json({
-        data: createdUserId,
-        message: 'user created'
+          res.status(201).json({
+            data: createdUserId,
+            message: 'user created',
+          });
+        } catch (error) {
+          next(error);
+        }
       });
-    } catch (error) {
-      next(error);
-    }
-  });
 
   router.put('/',
-  passport.authenticate('jwt', { session: false}),
-  validationHandler(updateUserSchema),
-  async (req,res,next)=>{
-    try {
-      
-    let updateUser = await usersService.updateUser(req.user._id, req.body)
+      passport.authenticate('jwt', {session: false}),
+      validationHandler(updateUserSchema),
+      async (req, res, next)=>{
+        try {
+          const updateUser = await usersService.updateUser(
+              req.user._id,
+              req.body,
+          );
 
-    res.json({
-      message: 'ok',
-      data: updateUser
-    }).status(200)
+          res.json({
+            message: 'ok',
+            data: updateUser,
+          }).status(200);
+        } catch (err) {
+          next(err);
+        }
+      });
 
-    } catch (err) {
-      next(err)
-    }
-  })
-  
   router.get('/isauth',
-  passport.authenticate('jwt', { session: false}),
-  (req,res,next)=>{
-    res.json({
-      message:'ok',
-    }).status(200)
-  })
+      passport.authenticate('jwt', {session: false}),
+      (req, res)=>{
+        res.json({
+          message: 'ok',
+        }).status(200);
+      });
 
   router.get('/:correo',
-  passport.authenticate('jwt', { session: false}),
-  scopesValidationHandler(['read:cartonUser']),
-  async (req,res,next)=>{
-    try {
-      const getUser = await usersService.getUser({email: req.params.correo})
-      res.json({
-        message:'ok',
-        data: {
-          email: getUser.email,
-          name: getUser.name,
-          id: getUser._id,
-        },
-      }).status(200)
-      
-    } catch (error) {
-      next(error)
-    }
-  })
-
-}
+      passport.authenticate('jwt', {session: false}),
+      scopesValidationHandler(['read:cartonUser']),
+      async (req, res, next)=>{
+        try {
+          const getUser = await usersService.getUser({
+            email: req.params.correo,
+          });
+          res.json({
+            message: 'ok',
+            data: {
+              email: getUser.email,
+              name: getUser.name,
+              id: getUser._id,
+            },
+          }).status(200);
+        } catch (error) {
+          next(error);
+        }
+      });
+};
 
 module.exports = authApi;

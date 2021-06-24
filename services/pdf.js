@@ -1,8 +1,8 @@
-const html_to_pdf  = require('html-pdf-node');
+const htmlToPdf = require('html-pdf-node');
 
-function layout(body) {
-  let primary_default = '#5F2EEA'
-  let greyscale_off = '#FCFCFC'
+const layout = (body) => {
+  const primaryDefault = '#5F2EEA';
+  const greyscaleOff = '#FCFCFC';
   return (`
   <!DOCTYPE html>
   <html lang="en">
@@ -32,8 +32,8 @@ function layout(body) {
         
         .th{
           padding: .5rem .5rem;
-          background-color: ${primary_default}!important;
-          color: ${greyscale_off};
+          background-color: ${primaryDefault}!important;
+          color: ${greyscaleOff};
           font-size: 24px;
           line-height: 38px;
           letter-spacing: 0.75px;
@@ -61,25 +61,24 @@ function layout(body) {
 
   </body>
   </html>
-  `)
-}
+  `);
+};
 
-
-function carton(title, serie, data, color='#5F2EEA'){
-  let greyscale_line = '#F7F7FC'
-  let primary_light = '#E4DAFF'
-  let primary_dark = '#2A00A2'
+const carton = (title, serie, data, color='#5F2EEA') => {
+  const greyscaleLine = '#F7F7FC';
+  const primaryLight = '#E4DAFF';
+  const primaryDark = '#2A00A2';
   return (`
 
   <div style='
   width: 430px;
   height: calc(50%);
-  background: ${greyscale_line}!important;
+  background: ${greyscaleLine}!important;
   border-radius: 32px;
   margin: 10px;
   margin-left: calc( (100% - 430px) / 2);
   margin-top: 40px;
-  border: solid 1px ${primary_light};
+  border: solid 1px ${primaryLight};
   display: inline-block;
   '>
 
@@ -126,39 +125,89 @@ function carton(title, serie, data, color='#5F2EEA'){
             vertical-align: inherit;
           '>
             <tr>
-              <td class='td' style='border: 2px solid ${color}!important;' >${data[0][0]}</td>
-              <td class='td' style='border: 2px solid ${color}!important;' >${data[1][0]}</td>
-              <td class='td' style='border: 2px solid ${color}!important;' >${data[2][0]}</td>
-              <td class='td' style='border: 2px solid ${color}!important;' >${data[3][0]}</td>
-              <td class='td' style='border: 2px solid ${color}!important;' >${data[4][0]}</td>
+              <td class='td' style='border: 2px solid ${color}!important;' >
+                ${data[0][0]}
+              </td>
+              <td class='td' style='border: 2px solid ${color}!important;' >
+                ${data[1][0]}
+              </td>
+              <td class='td' style='border: 2px solid ${color}!important;' >
+                ${data[2][0]}
+              </td>
+              <td class='td' style='border: 2px solid ${color}!important;' >
+                ${data[3][0]}
+              </td>
+              <td class='td' style='border: 2px solid ${color}!important;' >
+                ${data[4][0]}
+              </td>
             </tr>
             <tr>
-              <td class='td' style='border: 2px solid ${color}!important;' >${data[0][1]}</td>
-              <td class='td' style='border: 2px solid ${color}!important;' >${data[1][1]}</td>
-              <td class='td' style='border: 2px solid ${color}!important;' >${data[2][1]}</td>
-              <td class='td' style='border: 2px solid ${color}!important;' >${data[3][1]}</td>
-              <td class='td' style='border: 2px solid ${color}!important;' >${data[4][1]}</td>
+              <td class='td' style='border: 2px solid ${color}!important;' >
+                ${data[0][1]}
+              </td>
+              <td class='td' style='border: 2px solid ${color}!important;' >
+                ${data[1][1]}
+              </td>
+              <td class='td' style='border: 2px solid ${color}!important;' >
+                ${data[2][1]}
+              </td>
+              <td class='td' style='border: 2px solid ${color}!important;' >
+                ${data[3][1]}
+              </td>
+              <td class='td' style='border: 2px solid ${color}!important;' >
+                ${data[4][1]}
+              </td>
             </tr>
             <tr>
-              <td class='td' style='border: 2px solid ${color}!important;' >${data[0][2]}</td>
-              <td class='td' style='border: 2px solid ${color}!important;' >${data[1][2]}</td>
-              <td class='td' style='border: 2px solid ${color}!important;' >${data[2][2]}</td>
-              <td class='td' style='border: 2px solid ${color}!important;' >${data[3][2]}</td>
-              <td class='td' style='border: 2px solid ${color}!important;' >${data[4][2]}</td>
+              <td class='td' style='border: 2px solid ${color}!important;' >
+                ${data[0][2]}
+              </td>
+              <td class='td' style='border: 2px solid ${color}!important;' >
+                ${data[1][2]}
+              </td>
+              <td class='td' style='border: 2px solid ${color}!important;' >
+                ${data[2][2]}
+              </td>
+              <td class='td' style='border: 2px solid ${color}!important;' >
+                ${data[3][2]}
+              </td>
+              <td class='td' style='border: 2px solid ${color}!important;' >
+                ${data[4][2]}
+              </td>
             </tr>
             <tr>
-              <td class='td' style='border: 2px solid ${color}!important;' >${data[0][3]}</td>
-              <td class='td' style='border: 2px solid ${color}!important;' >${data[1][3]}</td>
-              <td class='td' style='border: 2px solid ${color}!important;' >${data[2][3]}</td>
-              <td class='td' style='border: 2px solid ${color}!important;' >${data[3][3]}</td>
-              <td class='td' style='border: 2px solid ${color}!important;' >${data[4][3]}</td>
+              <td class='td' style='border: 2px solid ${color}!important;' >
+                ${data[0][3]}
+              </td>
+              <td class='td' style='border: 2px solid ${color}!important;' >
+                ${data[1][3]}
+              </td>
+              <td class='td' style='border: 2px solid ${color}!important;' >
+                ${data[2][3]}
+              </td>
+              <td class='td' style='border: 2px solid ${color}!important;' >
+                ${data[3][3]}
+              </td>
+              <td class='td' style='border: 2px solid ${color}!important;' >
+                ${data[4][3]}
+              </td>
             </tr>
             <tr>
-              <td class='td' style='border: 2px solid ${color}!important;' >${data[0][4]}</td>
-              <td class='td' style='border: 2px solid ${color}!important;' >${data[1][4]}</td>
-              <td class='td' style='border: 2px solid ${color}!important;' >${data[2][4]}</td>
-              <td class='td' style='border: 2px solid ${color}!important;' >${data[3][4]}</td>
-              <td class='td' style='border: 2px solid ${color}!important;' >${data[4][4]}</td>
+              <td class='td' style='border: 2px solid ${color}!important;' >
+                ${data[0][4]}
+              </td>
+              <td class='td' style='border: 2px solid ${color}!important;' >
+                ${data[1][4]}
+              </td>
+              <td class='td' style='border: 2px solid ${color}!important;' >
+                ${data[2][4]}
+              </td>
+              <td class='td' style='border: 2px solid ${color}!important;' >
+                ${data[3][4]}
+              </td>
+              <td class='td' style='border: 2px solid ${color}!important;' >
+                ${data[4][4]}
+              </td>
             </tr>
           </tbody>
         </table>
@@ -172,8 +221,8 @@ function carton(title, serie, data, color='#5F2EEA'){
         '>
 
         <div style='
-        background: ${primary_light}!important;
-        color: ${primary_dark};
+        background: ${primaryLight}!important;
+        color: ${primaryDark};
         padding: .34rem .50rem;
         height: 30px;
         border-radius: 39px;
@@ -204,26 +253,28 @@ function carton(title, serie, data, color='#5F2EEA'){
         </div>
       </div>
     </div>
-  `)
-}
+  `);
+};
 
-async function CartonesPdf (cartones) {
-  let options = { format: 'Letter',  args: ['--no-sandbox', '--disable-setuid-sandbox'] };
-  let file = { content:
-    layout(
-      cartones.map((e)=>{
-        return carton(e.title, e.serie, e.data, e.color) 
-      }).join(' ')
-    )
+const CartonesPdf = async (cartones) => {
+  const options = {
+    format: 'Letter',
+    args: ['--no-sandbox', '--disable-setuid-sandbox'],
+  };
+  const file = {content:
+    layout(cartones.map((e)=>{
+      return carton(e.title, e.serie, e.data, e.color);
+    }).join(''),
+    ),
   };
   try {
-    let generado = await html_to_pdf.generatePdf(file, options)
+    const generado = await htmlToPdf.generatePdf(file, options);
     return generado;
   } catch (err) {
     throw new Error(err);
   }
-}
+};
 
 module.exports = {
   CartonesPdf,
-}
+};

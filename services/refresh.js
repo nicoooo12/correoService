@@ -1,7 +1,7 @@
-const axios = require('axios')
-const config = require('../config')
+const axios = require('axios');
+const config = require('../config');
 
-async function refresh(id) {
+const refresh = async (id) => {
   try {
     if (id) {
       await axios({
@@ -14,11 +14,9 @@ async function refresh(id) {
         url: `${config.apiUrl}/sockets/updateInfo`,
       });
     }
-    
   } catch (error) {
-    //next
+    // next
   }
-  
-}
+};
 
-module.exports = refresh
+module.exports = refresh;

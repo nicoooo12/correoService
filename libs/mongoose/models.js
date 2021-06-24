@@ -6,14 +6,14 @@ const mySchemaUsers = new Schema({
   email: String,
   // telefono: Number,
   password: String,
-})
+});
 
 const mySchemaCartones = new Schema({
   user: String,
   title: String,
   data: Array,
   serie: Number,
-})
+});
 
 const mySchemaCatalogos = new Schema({
   premios: Array,
@@ -24,7 +24,7 @@ const mySchemaCatalogos = new Schema({
   serie: Number,
   color: String,
   icon: String,
-})
+});
 
 const mySchemaOrdenes = new Schema({
   compra: Array,
@@ -37,7 +37,7 @@ const mySchemaOrdenes = new Schema({
   username: String,
   message: String,
   code: String,
-})
+});
 
 const mySchemaOrdenesTerminadas = new Schema({
   compra: Array,
@@ -46,38 +46,41 @@ const mySchemaOrdenesTerminadas = new Schema({
   user: String,
   comment: String,
   code: String,
-})
+});
 
 const mySchemaEvento = new Schema({
   montoTotal: Number,
   catonesComprados: Number,
-  fecha:String,
-})
+  fecha: String,
+});
 
 const mySchemaPlay = new Schema({
   estado: Number,
   serieJuego: Number,
   comment: String,
-})
+});
 
 const mySchemaErrores = new Schema({
   type: String,
   stack: String,
   url: String,
   user: Object,
-})
+});
 
 
-const users = mongoose.model('users', mySchemaUsers)//*
-const cartones = mongoose.model('cartones', mySchemaCartones)//*
-const ordenes = mongoose.model('ordenes', mySchemaOrdenes)//*
-const ordenesTerminadas = mongoose.model('ordenesTerminadas', mySchemaOrdenesTerminadas)//*
+const users = mongoose.model('users', mySchemaUsers);//*
+const cartones = mongoose.model('cartones', mySchemaCartones);//*
+const ordenes = mongoose.model('ordenes', mySchemaOrdenes);//*
+const ordenesTerminadas = mongoose.model(
+    'ordenesTerminadas',
+    mySchemaOrdenesTerminadas,
+);//*
 
-const catalogos = mongoose.model('catalogos', mySchemaCatalogos)//*
+const catalogos = mongoose.model('catalogos', mySchemaCatalogos);//*
 
-const plays = mongoose.model('plays', mySchemaPlay)
-const evento = mongoose.model('evento_s', mySchemaEvento)
-const errores = mongoose.model('errores', mySchemaErrores)
+const plays = mongoose.model('plays', mySchemaPlay);
+const evento = mongoose.model('evento_s', mySchemaEvento);
+const errores = mongoose.model('errores', mySchemaErrores);
 
 module.exports = {
   users,
@@ -88,4 +91,4 @@ module.exports = {
   evento,
   errores,
   ordenesTerminadas,
-}
+};

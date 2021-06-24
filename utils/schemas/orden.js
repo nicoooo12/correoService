@@ -2,72 +2,72 @@ const Joi = require('joi');
 
 const createOrdenSchema =Joi.object({
   compra: Joi
-    .array().min(1).items(
-      Joi.object({
-        serie: Joi
-        .number()
-        .required(),
-        cantidad: Joi
-        .number()
-        .required(),
-      })
-    )
-    .required(),
+      .array().min(1).items(
+          Joi.object({
+            serie: Joi
+                .number()
+                .required(),
+            cantidad: Joi
+                .number()
+                .required(),
+          }),
+      )
+      .required(),
   totalPago: Joi
-    .number()
-    .required(),
+      .number()
+      .required(),
   tipoDePago: Joi
-    .string()
-    .required(),
+      .string()
+      .required(),
 });
 
 const editOrdenSchema =Joi.object({
   compra: Joi
-    .array().min(1).items(
-      Joi.object({
-        serie: Joi
-        .number()
-        .required(),
-        cantidad: Joi
-        .number()
-        .required(),
-      })
-    ),
+      .array().min(1).items(
+          Joi.object({
+            serie: Joi
+                .number()
+                .required(),
+            cantidad: Joi
+                .number()
+                .required(),
+          }),
+      ),
   totalPago: Joi
-    .number(),
+      .number(),
   tipoDePago: Joi
-    .string(),
+      .string(),
 });
 
 const addCanvasUrlSchema = Joi.object({
   code: Joi
-    .string()
-    .required(),
+      .string()
+      .required(),
   url: Joi
-    .string()
-    .required(),
-})
+      .string()
+      .required(),
+});
 
 const addCommentSchema = Joi.object({
   message: Joi
-    .string()
-    .required(),
-})
+      .string()
+      .required(),
+});
 
 const endSchema = Joi.object({
   pagado: Joi
-    .number()
-    .required(),
+      .number()
+      .required(),
   correo: Joi
-    .boolean(),
+      .boolean(),
   comment: Joi
-    .string()
-})
+      .string(),
+});
 
 module.exports = {
   createOrdenSchema,
   addCanvasUrlSchema,
   editOrdenSchema,
   addCommentSchema,
-  endSchema
+  endSchema,
 };
