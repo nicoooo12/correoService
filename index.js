@@ -12,6 +12,7 @@ const io = new Server(server, {
     origin: [
       'https://admin.socket.io',
       config.adminUrl,
+      config.ssrUrl,
     ],
   },
 });
