@@ -50,7 +50,7 @@ module.exports = function(app) {
                   };
                 }),
                 'ordenes': {
-                  enProgreso: myInProgressOrden[0],
+                  enProgreso: myInProgressOrden[0] ? myInProgressOrden[0] : {},
                   terminadas: myEndsOrden,
                 },
                 'catalogos': catalogo,
