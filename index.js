@@ -11,11 +11,13 @@ const io = new Server(server, {
   cors: {
     origin: [
       'https://admin.socket.io',
-      config.adminUrl,
       config.ssrUrl,
+      config.adminUrl,
     ],
   },
 });
+
+console.log(config.ssrUrl, config.adminUrl);
 
 instrument(io, {
   auth: {

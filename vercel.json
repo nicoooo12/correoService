@@ -19,7 +19,8 @@
     "ADMIN_API_KEY_TOKEN":"@admin-token",
     "GMAIL_USER":"@gmail-user",
     "GMAIL_PASSWORD": "@gmail-password",
-    "SSR_URL":"https://bingoloteando.herokuapp.com/",
+    "SSR_URL":"https://bingoloteando.herokuapp.com",
+    "ADMIN_URL":"https://bingoloteando-admin.herokuapp.com",
     "USER_SOCKET": "admin",
     "PASSWORD_SOCKET": "$2b$10$6ZTM.xvvhsMohAooROB4gu0H7ieusUkzWbwWwyA4LtqT7L5Ta6Jc."
   }

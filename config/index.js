@@ -10,6 +10,7 @@ module.exports = {
   publicApiKeyToken: process.env.PUBLIC_API_KEY_TOKEN,
   adminApiKeyToken: process.env.ADMIN_API_KEY_TOKEN,
   ssrUrl: process.env.SSR_URL,
+  adminUrl: process.env.ADMIN_URL,
   socketUser: process.env.USER_SOCKET,
   socketPassword: process.env.PASSWORD_SOCKET,
 };
