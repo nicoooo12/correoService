@@ -5,7 +5,7 @@ const table = 'plays';
 const updatePlay = async (data) => {
   try {
     const idPlay = await store.get(table, {});
-    console.log(idPlay);
+    console.log(idPlay[0]._id);
     // const editCatalogo = await store.put(
     //     table,
     //     {_id: idPlay},
