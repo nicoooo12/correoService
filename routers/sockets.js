@@ -41,6 +41,7 @@ module.exports = function(app, socket) {
       // socket.to(io.id).emit('connected', 1, 2);
     });
     io.on('play', async (estado, serie)=>{
+      console.log('change', estado, serie);
       await PlayService.updatePlay({estado, serieJuego: serie});
       socket.emit('Play', estado, serie);
       socket.emit('change');
