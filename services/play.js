@@ -5,14 +5,13 @@ const table = 'plays';
 const updatePlay = async (data) => {
   try {
     const idPlay = await store.get(table, {});
-    console.log(idPlay[0]);
-    // const editCatalogo = await store.put(
-    //     table,
-    //     {_id: idPlay},
-    //     data,
-    // );
+    const editCatalogo = await store.put(
+        table,
+        {_id: idPlay[0]._id},
+        data,
+    );
 
-    return idPlay;
+    return editCatalogo;
   } catch (err) {
     throw new Error(err);
   }
