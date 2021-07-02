@@ -97,5 +97,79 @@ module.exports = function(app) {
         } catch (error) {
           console.log(error);
         }
-      });
+      },
+  );
+
+  router.get('/getState',
+      async (req, res, next)=>{
+        try {
+          let initialState;
+
+          if (req.headers.authorization) {
+            await passport.authenticate('jwt',
+                {session: false})(req, res, async (e) =>{
+              const user = {
+                name: req.user.name,
+                email: req.user.email,
+                id: req.user._id,
+              };
+              const cartones = await CartonesService
+                  .getCarton({user: req.user._id});
+              const myInProgressOrden = await OrdenesService
+                  .getOrden(req.user._id);
+              const myEndsOrden = await OrdenesService
+                  .getOrdenTerminadas(req.user._id);
+              const play = await PlayService.getPlay();
+
+              initialState = {
+                'user': user,
+                'cartonesUser': cartones.map((e)=>{
+                  return {
+                    ...e._doc,
+                    play: [
+                      [false, false, false, false, false],
+                      [false, false, false, false, false],
+                      [false, false, false, false, false],
+                      [false, false, false, false, false],
+                      [false, false, false, false, false],
+                    ],
+                  };
+                }),
+                'ordenes': {
+                  enProgreso: myInProgressOrden[0] ? myInProgressOrden[0] : {},
+                  terminadas: myEndsOrden,
+                },
+                'play': play,
+              };
+
+              res.json({
+                message: 'ok',
+                data: initialState,
+              }).status(200);
+            });
+          } else {
+            initialState = {
+              'user': {},
+              'redirect': '',
+              'cartonesUser': [],
+              'ordenes': {
+                enProgreso: {},
+                terminadas: [],
+              },
+              'play': {
+                estado: 0,
+                serieJuego: 1,
+              },
+            };
+
+            res.json({
+              message: 'ok',
+              data: initialState,
+            }).status(200);
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      },
+  );
 };
