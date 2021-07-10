@@ -4,8 +4,6 @@ const table = 'evento';
 const get = async ()=> {
   const [getEvento] = await store.get(table, {});
 
-  console.log(getEvento);
-
   return getEvento;
 };
 

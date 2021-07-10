@@ -72,6 +72,8 @@ module.exports = function(app) {
                 },
               };
 
+              console.log(vars, initialState);
+
               res.json({
                 message: 'ok',
                 data: initialState,
