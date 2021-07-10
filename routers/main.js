@@ -72,7 +72,7 @@ module.exports = function(app) {
                 },
               };
 
-              console.log(vars, initialState);
+              console.log(vars.title);
 
               res.json({
                 message: 'ok',
