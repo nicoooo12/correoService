@@ -6,6 +6,8 @@ const catalogoService = require('../services/catalogos');
 const CartonesService = require('../services/cartones');
 const OrdenesService = require('../services/ordenes');
 const PlayService = require('../services/play');
+const eventoService = require('./evento');
+
 require('../utils/auth/strategies/jwt');
 
 module.exports = function(app) {
@@ -16,6 +18,7 @@ module.exports = function(app) {
       async (req, res, next)=>{
         try {
           let initialState;
+          const vars = await eventoService.get();
 
           if (req.headers.authorization) {
             await passport.authenticate('jwt',
@@ -25,6 +28,7 @@ module.exports = function(app) {
                 email: req.user.email,
                 id: req.user._id,
               };
+
               const cartones = await CartonesService
                   .getCarton({user: req.user._id});
               const myInProgressOrden = await OrdenesService
@@ -36,6 +40,12 @@ module.exports = function(app) {
 
               initialState = {
                 'user': user,
+                'vars': {
+                  pago: vars.pago,
+                  contacto: vars.contacto,
+                  subTitle: vars.subTitle,
+                  title: vars.title,
+                },
                 'redirect': '',
                 'cartonesUser': cartones.map((e)=>{
                   return {
@@ -71,6 +81,12 @@ module.exports = function(app) {
             const catalogo = await catalogoService.getCatalogo();
             initialState = {
               'user': {},
+              'vars': {
+                pago: vars.pago,
+                contacto: vars.contacto,
+                subTitle: vars.subTitle,
+                title: vars.title,
+              },
               'redirect': '',
               'cartonesUser': [],
               'ordenes': {
@@ -95,7 +111,7 @@ module.exports = function(app) {
             }).status(200);
           }
         } catch (error) {
-          console.log(error);
+          throw new Error(error);
         }
       },
   );
@@ -103,7 +119,7 @@ module.exports = function(app) {
   router.get('/getState',
       async (req, res, next)=>{
         try {
-          let initialState;
+          let getState;
 
           if (req.headers.authorization) {
             await passport.authenticate('jwt',
@@ -121,7 +137,7 @@ module.exports = function(app) {
                   .getOrdenTerminadas(req.user._id);
               const play = await PlayService.getPlay();
 
-              initialState = {
+              getState = {
                 'user': user,
                 'cartonesUser': cartones.map((e)=>{
                   return {
@@ -144,11 +160,11 @@ module.exports = function(app) {
 
               res.json({
                 message: 'ok',
-                data: initialState,
+                data: getState,
               }).status(200);
             });
           } else {
-            initialState = {
+            getState = {
               'user': {},
               'redirect': '',
               'cartonesUser': [],
@@ -164,11 +180,11 @@ module.exports = function(app) {
 
             res.json({
               message: 'ok',
-              data: initialState,
+              data: getState,
             }).status(200);
           }
         } catch (error) {
-          console.log(error);
+          throw new Error(error);
         }
       },
   );

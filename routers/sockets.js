@@ -25,7 +25,7 @@ module.exports = function(app, socket) {
   socket.on('connect', (io)=>{
     console.log('connected');
     io.on('ok', async ()=>{
-      console.log(io);
+      // console.log(io);
       // console.log('ok');
     });
     io.on('admin', ()=>{

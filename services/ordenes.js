@@ -1,6 +1,7 @@
 const store = require('../libs/mongoose');
 const correoService = require('./correo');
 const cartonesService = require('./cartones');
+const eventoService = require('./evento');
 const shortid = require('shortid');
 
 const table = 'ordenes';
@@ -160,9 +161,7 @@ const terminarOrden = async (id, pagado, correo = false, comment) => {
     });
 
     // mover la orden
-    const [evento] = await store.get('evento');
-    // console.log(evento, cantidadCartonesNuevos, evento.montoTotal);
-    await store.put('evento', {_id: evento._id}, {
+    await eventoService.put({
       montoTotal: evento.montoTotal + pagado,
       catonesComprados: evento.catonesComprados + cantidadCartonesNuevos,
     });

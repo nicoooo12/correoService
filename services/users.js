@@ -13,7 +13,6 @@ const createUser = async ({user}) => {
   const {name, email, password} = user;
   const queriedUser = await getUser({email});
 
-  console.log(queriedUser);
 
   if (queriedUser) {
     throw boom.badRequest('busy account');
