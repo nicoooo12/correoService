@@ -6,7 +6,7 @@ const catalogoService = require('../services/catalogos');
 const CartonesService = require('../services/cartones');
 const OrdenesService = require('../services/ordenes');
 const PlayService = require('../services/play');
-const eventoService = require('./evento');
+const eventoService = require('../services/evento');
 
 require('../utils/auth/strategies/jwt');
 
