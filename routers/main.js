@@ -41,10 +41,10 @@ module.exports = function(app) {
               initialState = {
                 'user': user,
                 'vars': {
-                  pago: vars.pago,
-                  contacto: vars.contacto,
-                  subTitle: vars.subTitle,
-                  title: vars.title,
+                  pago: vars._doc.pago,
+                  contacto: vars._doc.contacto,
+                  subTitle: vars._doc.subTitle,
+                  title: vars._doc.title,
                 },
                 'redirect': '',
                 'cartonesUser': cartones.map((e)=>{
@@ -72,8 +72,6 @@ module.exports = function(app) {
                 },
               };
 
-              console.log(Object.keys(vars._doc));
-
               res.json({
                 message: 'ok',
                 data: initialState,
@@ -84,10 +82,10 @@ module.exports = function(app) {
             initialState = {
               'user': {},
               'vars': {
-                pago: vars.pago,
-                contacto: vars.contacto,
-                subTitle: vars.subTitle,
-                title: vars.title,
+                pago: vars._doc.pago,
+                contacto: vars._doc.contacto,
+                subTitle: vars._doc.subTitle,
+                title: vars._doc.title,
               },
               'redirect': '',
               'cartonesUser': [],
