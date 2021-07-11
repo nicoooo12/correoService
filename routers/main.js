@@ -45,6 +45,7 @@ module.exports = function(app) {
                   contacto: vars._doc.contacto,
                   subTitle: vars._doc.subTitle,
                   title: vars._doc.title,
+                  contacto: vars._doc.contacto,
                 },
                 'redirect': '',
                 'cartonesUser': cartones.map((e)=>{
