@@ -1,38 +1,16 @@
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
+const boom = require('@hapi/boom');
 
 const app = express();
 const config = require('./config');
-const server = require('http').createServer(app);
-const {Server} = require('socket.io');
-const {instrument} = require('@socket.io/admin-ui');
-const io = new Server(server, {
-  cors: {
-    origin: [
-      'https://admin.socket.io',
-      config.ssrUrl,
-      config.adminUrl,
-    ],
-  },
-});
-
-console.log(config.ssrUrl, config.adminUrl);
-
-instrument(io, {
-  auth: {
-    type: 'basic',
-    username: config.socketUser,
-    password: config.socketPassword,
-  },
-});
 
 const {
   logErrors,
   wrapErrors,
   errorHandler,
 } = require('./utils/middleware/errorHandlers');
-require('./libs/mongoose/connect.js')(config.db);
 
 // middleware
 app.disable('x-powered-by');
@@ -41,15 +19,16 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 app.use(helmet());
 
+app.use((req, res, next)=>{
+  if (req.body.key === config.key) {
+    next();
+  } else {
+    next(boom.unauthorized('unauthorized keys'));
+  }
+});
+
 // routers
-require('./routers/auth')(app);
-require('./routers/cartones')(app);
-require('./routers/catalogos')(app);
-require('./routers/orden')(app);
-require('./routers/play')(app);
 require('./routers/main')(app);
-require('./routers/sockets')(app, io);
-// require('./routers/premios')(app);
 
 // 404 not found
 app.use((req, res)=>{
@@ -64,7 +43,7 @@ app.use(logErrors);
 app.use(wrapErrors);
 app.use(errorHandler);
 
-server.listen(config.port, () => {
+app.listen(config.port, () => {
   console.log(`server listening on port ${config.port}
 in ${config.dev ? 'development' : 'production'} mode`);
 });
