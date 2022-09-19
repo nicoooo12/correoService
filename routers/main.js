@@ -11,8 +11,11 @@ module.exports = function(app) {
         try {
           CorreoService.correoConfirmation(
               req.body.email,
+              req.body.name,
               req.body.cartones,
               req.body.catalogos,
+              req.body.orden,
+              req.body.fecha,
           );
 
           res.json({
