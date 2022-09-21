@@ -166,7 +166,8 @@ const carton = (title, serie, data, color='#5F2EEA', index) => {
                 <td class='td' style='border: 2px solid ${color}!important;' >
                 ${data[1][2]}</td>
                 <td class='td' style='border: 2px solid ${color}!important;' >
-                ${data[2][2]}</td>
+                  X
+                </td>
                 <td class='td' style='border: 2px solid ${color}!important;' >
                 ${data[3][2]}</td>
                 <td class='td' style='border: 2px solid ${color}!important;' >

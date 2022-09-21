@@ -33,10 +33,6 @@ const correoConfirmation = async (
   try {
     // eslint-disable-next-line new-cap
     const content = await pdfService.CartonesPdf(cartones, catalogo);
-    const time = new Date(fecha);
-    const day = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
-    const month = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-    const date = `${day[time.getDay() - 1]} ${time.getDate()} de ${month[time.getMonth()]} a las ${time.getHours()}${time.getMinutes() > 0 ? `:${time.getMinutes()}` : '' }hrs`;
     await transporter.sendMail({
       from: '"Bingoloteando" <nicoflores.dev@gmail.com>', // sender address
       to, // list of receivers
@@ -63,7 +59,7 @@ const correoConfirmation = async (
 
       <p>
       Podrás jugar tus cartones cuando inicie el bingo 
-      este <b>${date}</b>
+      este <b>${fecha}</b>
       </p>
 
       <p><b>
