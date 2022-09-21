@@ -64,7 +64,7 @@ const layout = (body) => {
   `);
 };
 
-const carton = (title, serie, data, color='#5F2EEA', index) => {
+const carton = (title, code, data, color='#5F2EEA', index) => {
   const greyscaleLine = '#F7F7FC';
   const primaryLight = '#E4DAFF';
   const primaryDark = '#2A00A2';
@@ -234,7 +234,7 @@ const carton = (title, serie, data, color='#5F2EEA', index) => {
             top: -4px;
             padding: 0 5px;
           '>
-            serie: ${serie}
+          código: ${code}
           </span>
         </div>
 
