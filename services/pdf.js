@@ -253,7 +253,7 @@ const CartonesPdf = async (cartones, catalogo) => {
   };
   const file = {content:
     layout(cartones.map((e, index)=>{
-      return carton(e.title, e.serie, e.data,
+      return carton(e.title, e.code, e.data,
           catalogo.filter((o)=>{
             return o.serie === e.serie;
           })[0].color,
