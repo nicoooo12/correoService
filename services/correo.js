@@ -78,7 +78,41 @@ const correoConfirmation = async (
   }
 };
 
+const correoChangePassword = async (
+    to, name = '', code,
+) => {
+  try {
+  // eslint-disable-next-line new-cap
+    await transporter.sendMail({
+      from: '"Bingoloteando" <nicoflores.dev@gmail.com>', // sender address
+      to, // list of receivers
+      subject: 'Recupera tu contraseña', // Subject line
+      // text: "Hello world?", // plain text body
+      html: `
+    <h1>Hola${' '+ name}!</h1>
+    <b>Entra al siguiente url para cambiar tu contraseña</b>
+
+    <p>
+    <a href="https://bingoloteando.herokuapp.com/password/${to}/${code}" >https://bingoloteando.herokuapp.com/password/${to}/${code}</a>
+    </p>
+
+    <p>No compartas esta url con nadie</p>
+
+    <p><b>
+      Atte.
+    <br/>
+      Equipo técnico Bingoloteando.
+    </b></p>
+`, // html body
+      // attachments: [{filename: 'MisCartonesBingoloteando.pdf', content}],
+    });
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
 module.exports = {
   correo,
   correoConfirmation,
+  correoChangePassword,
 };
