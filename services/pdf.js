@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 const htmlToPdf = require('html-pdf-node');
 
 const layout = (body) => {
@@ -64,7 +65,7 @@ const layout = (body) => {
   `);
 };
 
-const carton = (title, code, data, color='#5F2EEA', index) => {
+const carton = (title, code, data, color='#5F2EEA', index, iconUrl) => {
   const greyscaleLine = '#F7F7FC';
   const primaryLight = '#E4DAFF';
   const primaryDark = '#2A00A2';
@@ -165,8 +166,10 @@ const carton = (title, code, data, color='#5F2EEA', index) => {
                 ${data[0][2]}</td>
                 <td class='td' style='border: 2px solid ${color}!important;' >
                 ${data[1][2]}</td>
-                <td class='td' style='border: 2px solid ${color}!important;' >
-                  X
+                <td class='td' style='border: 0px solid ${color}!important; display: flex; align-items: center; flex-direction: column; height: 100%; justify-content: space-between' >
+                  ${
+                    iconUrl ?
+                    `<img src="${iconUrl}" width="30" height="30" style="top: 8px; align-items: center; position: relative;" />` : 'X' }
                 </td>
                 <td class='td' style='border: 2px solid ${color}!important;' >
                 ${data[3][2]}</td>
@@ -258,6 +261,9 @@ const CartonesPdf = async (cartones, catalogo) => {
             return o.serie === e.serie;
           })[0].color,
           index,
+          catalogo.filter((o)=>{
+            return o.serie === e.serie;
+          })[0].icon_img,
       );
     }).join(''),
     ),

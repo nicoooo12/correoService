@@ -44,4 +44,22 @@ module.exports = function(app) {
         }
       },
   );
+
+  router.post('/massageOrden',
+      async (req, res, next)=>{
+        try {
+          CorreoService.massageOrden(
+              req.body.email,
+              req.body.name,
+              req.body.message,
+          );
+
+          res.json({
+            message: 'ok',
+          }).status(200);
+        } catch (error) {
+          throw new Error(error);
+        }
+      },
+  );
 };

@@ -45,7 +45,7 @@ const correoConfirmation = async (
       <p>Detalles de tu compra: <br/>
       ${orden.map((e)=>{
     if (e.serie === 0) {
-      return 'Promo';
+      return '  - Entrada x1';
     }
     return `  - ${catalogo.filter((o)=>{
       return o.serie === e.serie;
@@ -111,8 +111,43 @@ const correoChangePassword = async (
   }
 };
 
+const massageOrden = async (
+    to, name = '', message,
+) => {
+  try {
+    // eslint-disable-next-line new-cap
+    await transporter.sendMail({
+      from: '"Bingoloteando" <nicoflores.dev@gmail.com>', // sender address
+      to, // list of receivers
+      subject: 'Nuevo mensaje en tu Orden 👀', // Subject line
+      // text: "Hello world?", // plain text body
+      html: `
+  <h1>Hola${' '+ name}!</h1>
+  <b>Un administrador agregó un mensaje a tu orden de compra.</b>
+
+  <p>
+    "${message}"
+  </p>
+
+  <p><b>
+    Atte.
+  <br/>
+    Equipo técnico Bingoloteando.
+  </b></p>
+  <small>
+    Entra aquí para ver tu orden https://bingoloteando.herokuapp.com/ordenes
+  </small>
+`, // html body
+    // attachments: [{filename: 'MisCartonesBingoloteando.pdf', content}],
+    });
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
 module.exports = {
   correo,
   correoConfirmation,
   correoChangePassword,
+  massageOrden,
 };
